@@ -1,0 +1,58 @@
+public class GuestReviewProcessor {
+
+    //TO-DO Build out Invocable method processReviews with label and description
+
+    @InvocableMethod(label = 'Process Guest Reviews' description = 'Process Guest Reviews.')
+    public static List<GuestReviewResponse> processReviews(List<GuestReviewRequest> requests) {
+  
+          GuestReviewResponse response = new GuestReviewResponse();
+          GuestReviewRequest req = requests[0];
+
+        //TO-DO Insert Guest_Review__c record with contact (Contact__c), experience (Experience__c), rating (Rating__c), and review (Comments__c) variables in the processReviews method
+        try {
+            Guest_Review__c c = new Guest_Review__c();
+            c.Contact__c = req.contact.Id;
+            c.Experience__c = req.experience.Id;
+            c.Comments__c = req.review;
+            c.Rating__c = req.rating;
+                insert c;
+        }
+        catch (DmlException e) {
+            System.debug('The following exception has occurred: ' + e.getMessage());
+        }
+        //TO-DO Add exception handling code with a try-catch block
+
+        //[OPTIONAL] Call CampaignMemberController.createCampaignMemberforRelatedCampaigns() in processReviews method 
+
+        //TO-DO Set the output variable response.message from GuestReviewResponse
+
+        return new List < GuestReviewResponse > { response };
+
+    }
+
+    public class GuestReviewRequest {
+        //TO-DO Build out GuestReviewRequest class with Invocable variables
+        @InvocableVariable(required = true description = '')
+        public Contact contact;
+
+        @InvocableVariable(required = true description = '')
+        public Experience__c experience;
+
+        @InvocableVariable(required = true description = '')
+        public String review;
+
+        @InvocableVariable(required = true description = '')
+        public String rating;
+
+    }
+
+
+    public class GuestReviewResponse {
+        //TO-DO Build out GuestReviewResponse class with Invocable variables
+
+        @InvocableVariable(label = 'Status' description = 'yourDescription' required = true)
+        public String message;
+
+    }    
+        
+}
